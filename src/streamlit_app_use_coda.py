@@ -17,8 +17,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # === API keys ===
-MISTRAL_API_KEY = st.secrets.get("MISTRAL_API_KEY") or os.getenv("MISTRAL_API_KEY")
-GEMMA_API_KEY = st.secrets.get("GEMMA_API_KEY") or os.getenv("GEMMA_API_KEY")
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
+GEMMA_API_KEY = os.getenv("GEMMA_API_KEY")
 
 # === LLM Functions ===
 def get_mistral_response(prompt):
@@ -54,8 +54,21 @@ def load_local_pickle(filepath):
     with open(filepath, "rb") as f:
         return pickle.load(f)
 
+@st.cache_data
+def load_pickle_from_drive(drive_url):
+    # Extract the file ID from the shareable URL
+    file_id = drive_url.split("/d/")[1].split("/")[0]
+    download_url = f"https://drive.google.com/uc?id={file_id}"
+    
+    response = requests.get(download_url)
+    response.raise_for_status()
+    
+    return pickle.loads(response.content)
+
+
 # === Load document embeddings ===
-policy_documents = load_local_pickle("data/outputs/policy_documents.pkl")
+#policy_documents = load_local_pickle("data/outputs/policy_documents.pkl")
+policy_documents = load_pickle_from_drive("https://drive.google.com/file/d/1kdl8PHBbWHpGsLRtJuL1hZLb2Qzxs0EQ/view?usp=sharing")
 
 # === Extract available State-Programs from CODA documents ===
 coda_programs = sorted(
