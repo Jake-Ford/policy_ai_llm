@@ -1,5 +1,7 @@
-# ignore all in data
-data/*
-/data/*
-
-plastic_doc_embeddings.pkl
+# Ignore virtual environments
+snowflake_env/
+venv/
+.venv/
+.env
+*.pkl
+__pycache__/
