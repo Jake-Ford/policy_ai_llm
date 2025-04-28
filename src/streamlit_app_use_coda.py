@@ -81,7 +81,7 @@ coda_programs = sorted(
 )
 
 # === Streamlit UI ===
-st.title("📘 Policy AI Chatbot")
+st.title("📘 Coda Policy Matrix AI Chatbot")
 
 selected_program = st.selectbox(
     "Select a State - Program (optional to narrow your search):",
